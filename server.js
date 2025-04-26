@@ -92,6 +92,36 @@ app.post('/register', async (req, res) => {
     }
 });
 
+// NGO Registration routes
+app.get('/register-ngo', (req, res) => {
+    res.render('register-ngo', { error: null });
+});
+
+app.post('/register-ngo', async (req, res) => {
+    const { ngo_name, email, pincode } = req.body;
+
+    try {
+        // Check if email already exists
+        const checkResult = await db.query('SELECT * FROM ngos WHERE email = $1', [email]);
+        if (checkResult.rows.length > 0) {
+            res.render('register-ngo', { error: 'Email already registered' });
+            return;
+        }
+
+        // Insert new NGO
+        const result = await db.query(
+            'INSERT INTO ngos (ngo_name, email, pincode) VALUES ($1, $2, $3) RETURNING id, ngo_name, email',
+            [ngo_name, email, pincode]
+        );
+
+        // Redirect to home with success message
+        res.redirect('/?success=ngo_registered');
+    } catch (error) {
+        console.error('NGO Registration error:', error);
+        res.render('register-ngo', { error: 'An error occurred during registration' });
+    }
+});
+
 // Donation routes
 app.get('/donate', (req, res) => {
     if (!req.session.user) {
@@ -127,13 +157,24 @@ app.get('/donations', async (req, res) => {
         res.redirect('/login');
         return;
     }
-
     try {
-        const result = await db.query(
+        // Get user's donations
+        const donationsResult = await db.query(
             'SELECT * FROM food_donations WHERE user_id = $1 ORDER BY donation_date DESC',
             [req.session.user.id]
         );
-        res.render('donations', { donations: result.rows });
+        
+        // For each donation, find nearby NGOs (within 50km of donation's pincode)
+        const donations = donationsResult.rows;
+        for (let donation of donations) {
+            const nearbyNgos = await db.query(
+                'SELECT * FROM ngos WHERE ABS(CAST(pincode AS INTEGER) - CAST($1 AS INTEGER)) <= 50 ORDER BY ABS(CAST(pincode AS INTEGER) - CAST($1 AS INTEGER))',
+                [donation.pincode]
+            );
+            donation.nearbyNgos = nearbyNgos.rows;
+        }
+        
+        res.render('donations', { donations: donations });
     } catch (error) {
         console.error('Error fetching donations:', error);
         res.render('donations', { donations: [], error: 'Error fetching donations' });

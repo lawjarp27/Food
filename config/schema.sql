@@ -17,4 +17,13 @@ CREATE TABLE IF NOT EXISTS food_donations (
     address TEXT NOT NULL,
     pincode VARCHAR(10) NOT NULL,
     donation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create NGOs table
+CREATE TABLE IF NOT EXISTS ngos (
+    id SERIAL PRIMARY KEY,
+    ngo_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    pincode VARCHAR(10) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ); 
