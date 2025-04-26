@@ -16,7 +16,9 @@ CREATE TABLE IF NOT EXISTS food_donations (
     description TEXT,
     address TEXT NOT NULL,
     pincode VARCHAR(10) NOT NULL,
-    donation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    donation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ngo_response VARCHAR(50) DEFAULT NULL,
+    ngo_id INTEGER REFERENCES ngos(id)
 );
 
 -- Create NGOs table

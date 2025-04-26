@@ -168,13 +168,11 @@ app.get('/donations', async (req, res) => {
         return;
     }
     try {
-        // Get user's donations
         const donationsResult = await db.query(
             'SELECT * FROM food_donations WHERE user_id = $1 ORDER BY donation_date DESC',
             [req.session.user.id]
         );
         
-        // For each donation, find nearby NGOs (within 50km of donation's pincode)
         const donations = donationsResult.rows;
         for (let donation of donations) {
             const nearbyNgos = await db.query(
@@ -191,44 +189,62 @@ app.get('/donations', async (req, res) => {
     }
 });
 
-app.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.redirect('/login');
-});
-
 app.post("/send-email", async (req, res) => {
-    const { email } = req.body;
-
+    const { email, donation_id, ngo_id } = req.body;
+    
     try {
         const info = await transporter.sendMail({
             from: '"Food Share Project" <gaultiermorningstar@gmail.com>',
             to: email,
             subject: "Do you want to accept this food delivery?",
             html: `
-          <p>Do you want to accept this food delivery?</p>
-          <p>
-            <a href="http://localhost:3000/respond?answer=yes">✅ Yes</a> |
-            <a href="http://localhost:3000/respond?answer=no">❌ No</a>
-          </p>
-        `,
+                <p>Do you want to accept this food delivery?</p>
+                <p>
+                    <a href="http://localhost:3000/respond?answer=yes&donation_id=${donation_id}&ngo_id=${ngo_id}">✅ Yes</a> |
+                    <a href="http://localhost:3000/respond?answer=no&donation_id=${donation_id}&ngo_id=${ngo_id}">❌ No</a>
+                </p>
+            `,
         });
 
         console.log("✅ Email sent:", info.messageId);
-        res.send("✅ Email sent successfully!");
+        res.render('thankyou');
     } catch (error) {
         console.error("❌ Email error:", error);
-        res.send("❌ Email failed to send.");
+        res.render('thankyou', { error: "Email failed to send. Please try again." });
     }
 });
-app.get("/respond", (req, res) => {
-    const answer = req.query.answer; // will be 'yes' or 'no'
 
-    console.log("🚀 User responded:", answer.toUpperCase());
-
-    // You can store it in DB here if needed
-
-    res.send(`<h1>Thanks! You responded: ${answer.toUpperCase()} 🙌</h1>`);
+app.get("/respond", async (req, res) => {
+    const { answer, donation_id, ngo_id } = req.query;
+    
+    try {
+        if (answer === 'yes') {
+            // Update the donation with the NGO's response
+            await db.query(
+                'UPDATE food_donations SET ngo_response = $1, ngo_id = $2 WHERE id = $3',
+                ['accepted', ngo_id, donation_id]
+            );
+            res.send(`
+                <h1>Thanks! You accepted the donation 🙌</h1>
+                <p>You can close this window now.</p>
+            `);
+        } else {
+            res.send(`
+                <h1>Thanks for your response!</h1>
+                <p>You can close this window now.</p>
+            `);
+        }
+    } catch (error) {
+        console.error("Error updating donation status:", error);
+        res.send("An error occurred while processing your response.");
+    }
 });
+
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/login');
+});
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

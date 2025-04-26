@@ -271,6 +271,37 @@
                 text-align: center;
             }
         }
+
+        .accepted-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .email-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .email-btn:hover {
+            background-color: #1976D2;
+            transform: translateY(-2px);
+        }
+
+        .email-btn i {
+            font-size: 1rem;
+        }
     </style>
 </head>
 
@@ -341,14 +372,23 @@
                                                     Pincode: <%= ngo.pincode %>
                                                 </div>
                                                 <div class="ngo-email">
-                                                    Email: <%= ngo.email %>
-
-                                                        <form action="/send-email" method="post"
-                                                            style="margin-top: 5px;">
-                                                            <!-- Send the NGO's email automatically without needing manual input -->
+                                                    <% if (donation.ngo_response === 'accepted' && donation.ngo_id === ngo.id) { %>
+                                                        <div class="accepted-status">
+                                                            <i class="fas fa-check-circle" style="color: var(--primary-color); font-size: 1.5rem;"></i>
+                                                            <span>Accepted</span>
+                                                        </div>
+                                                    <% } else { %>
+                                                        Email: <%= ngo.email %>
+                                                        <form action="/send-email" method="post" style="margin-top: 5px;">
                                                             <input type="hidden" name="email" value="<%= ngo.email %>">
-                                                            <button type="submit">📧 Send Email</button>
+                                                            <input type="hidden" name="donation_id" value="<%= donation.id %>">
+                                                            <input type="hidden" name="ngo_id" value="<%= ngo.id %>">
+                                                            <button type="submit" class="email-btn">
+                                                                <i class="fas fa-paper-plane"></i>
+                                                                Send Email
+                                                            </button>
                                                         </form>
+                                                    <% } %>
                                                 </div>
                                             </div>
                                         </div>
