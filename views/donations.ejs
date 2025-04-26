@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -197,16 +198,6 @@
             color: #666;
         }
 
-        .ngo-email {
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .email-link {
-            color: #666;
-            text-decoration: none;
-        }
-
         .contact-ngo {
             background-color: var(--secondary-color);
             color: white;
@@ -273,7 +264,7 @@
             .donations-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .header {
                 flex-direction: column;
                 gap: 1rem;
@@ -282,6 +273,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="header">
         <div class="welcome">My Donations</div>
@@ -290,71 +282,94 @@
         </a>
     </div>
     <div class="container">
-        <% if (donations && donations.length > 0) { %>
+        <% if (donations && donations.length> 0) { %>
             <div class="donations-grid">
-                <% donations.forEach(donation => { %>
+                <% donations.forEach(donation=> { %>
                     <div class="donation-card">
                         <div class="donation-date">
                             <%= new Date(donation.donation_date).toLocaleDateString() %>
                         </div>
                         <div class="donation-header">
-                            <h3 class="donation-title"><%= donation.item_name %></h3>
-                            <span class="donation-age"><%= donation.food_quality %></span>
+                            <h3 class="donation-title">
+                                <%= donation.item_name %>
+                            </h3>
+                            <span class="donation-age">
+                                <%= donation.food_quality %>
+                            </span>
                         </div>
                         <div class="donation-details">
                             <div class="donation-detail">
                                 <span class="detail-label">Quantity:</span>
-                                <span><%= donation.quantity %></span>
+                                <span>
+                                    <%= donation.quantity %>
+                                </span>
                             </div>
                             <% if (donation.description) { %>
                                 <div class="donation-detail">
                                     <span class="detail-label">Description:</span>
-                                    <span><%= donation.description %></span>
+                                    <span>
+                                        <%= donation.description %>
+                                    </span>
                                 </div>
-                            <% } %>
+                                <% } %>
                         </div>
                         <div class="donation-address">
                             <div class="donation-detail">
                                 <span class="detail-label">Address:</span>
-                                <span><%= donation.address %></span>
+                                <span>
+                                    <%= donation.address %>
+                                </span>
                             </div>
                             <div class="donation-detail">
                                 <span class="detail-label">Pincode:</span>
-                                <span><%= donation.pincode %></span>
+                                <span>
+                                    <%= donation.pincode %>
+                                </span>
                             </div>
                         </div>
                         <div class="nearby-ngos">
                             <h4 class="nearby-ngos-title">Nearby NGOs</h4>
-                            <% if (donation.nearbyNgos && donation.nearbyNgos.length > 0) { %>
+                            <% if (donation.nearbyNgos && donation.nearbyNgos.length> 0) { %>
                                 <div class="ngo-list">
-                                    <% donation.nearbyNgos.forEach(ngo => { %>
+                                    <% donation.nearbyNgos.forEach(ngo=> { %>
                                         <div class="ngo-item">
                                             <div class="ngo-info">
-                                                <div class="ngo-name"><%= ngo.ngo_name %></div>
+                                                <div class="ngo-name">
+                                                    <%= ngo.ngo_name %>
+                                                </div>
                                                 <div class="ngo-distance">
                                                     Pincode: <%= ngo.pincode %>
                                                 </div>
                                                 <div class="ngo-email">
-                                                    <a href="mailto:<%= ngo.email %>" class="email-link"><%= ngo.email %></a>
+                                                    Email: <%= ngo.email %>
+
+                                                        <form action="/send-email" method="post"
+                                                            style="margin-top: 5px;">
+                                                            <!-- Send the NGO's email automatically without needing manual input -->
+                                                            <input type="hidden" name="email" value="<%= ngo.email %>">
+                                                            <button type="submit">📧 Send Email</button>
+                                                        </form>
                                                 </div>
                                             </div>
                                         </div>
-                                    <% }); %>
+
+                                        <% }); %>
                                 </div>
-                            <% } else { %>
-                                <p>No NGOs found within 50 pincodes of this location.</p>
-                            <% } %>
+                                <% } else { %>
+                                    <p>No NGOs found within 50 pincodes of this location.</p>
+                                    <% } %>
                         </div>
                     </div>
-                <% }); %>
+                    <% }); %>
             </div>
-        <% } else { %>
-            <div class="no-donations">
-                <h2>No Donations Yet</h2>
-                <p>Start making a difference by donating food to those in need.</p>
-                <a href="/donate" class="donate-btn">Make Your First Donation</a>
-            </div>
-        <% } %>
+            <% } else { %>
+                <div class="no-donations">
+                    <h2>No Donations Yet</h2>
+                    <p>Start making a difference by donating food to those in need.</p>
+                    <a href="/donate" class="donate-btn">Make Your First Donation</a>
+                </div>
+                <% } %>
     </div>
 </body>
-</html> 
+
+</html>

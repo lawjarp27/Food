@@ -4,9 +4,18 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const db = require('./config/db');
+const nodemailer = require("nodemailer");
 
 const app = express();
 const PORT = 3000;
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: "gaultiermorningstar@gmail.com",
+        pass: "vkpKcxrrbufkuden",
+    },
+});
+
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -29,6 +38,7 @@ app.get('/', async (req, res) => {
     } else {
         res.redirect('/login');
     }
+    // res.render('home',{ })
 });
 
 app.get('/login', (req, res) => {
@@ -186,6 +196,39 @@ app.get('/logout', (req, res) => {
     res.redirect('/login');
 });
 
+app.post("/send-email", async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const info = await transporter.sendMail({
+            from: '"Food Share Project" <gaultiermorningstar@gmail.com>',
+            to: email,
+            subject: "Do you want to accept this food delivery?",
+            html: `
+          <p>Do you want to accept this food delivery?</p>
+          <p>
+            <a href="http://localhost:3000/respond?answer=yes">✅ Yes</a> |
+            <a href="http://localhost:3000/respond?answer=no">❌ No</a>
+          </p>
+        `,
+        });
+
+        console.log("✅ Email sent:", info.messageId);
+        res.send("✅ Email sent successfully!");
+    } catch (error) {
+        console.error("❌ Email error:", error);
+        res.send("❌ Email failed to send.");
+    }
+});
+app.get("/respond", (req, res) => {
+    const answer = req.query.answer; // will be 'yes' or 'no'
+
+    console.log("🚀 User responded:", answer.toUpperCase());
+
+    // You can store it in DB here if needed
+
+    res.send(`<h1>Thanks! You responded: ${answer.toUpperCase()} 🙌</h1>`);
+});
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
