@@ -197,6 +197,16 @@
             color: #666;
         }
 
+        .ngo-email {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .email-link {
+            color: #666;
+            text-decoration: none;
+        }
+
         .contact-ngo {
             background-color: var(--secondary-color);
             color: white;
@@ -324,8 +334,10 @@
                                                 <div class="ngo-distance">
                                                     Pincode: <%= ngo.pincode %>
                                                 </div>
+                                                <div class="ngo-email">
+                                                    <a href="mailto:<%= ngo.email %>" class="email-link"><%= ngo.email %></a>
+                                                </div>
                                             </div>
-                                            <a href="mailto:<%= ngo.email %>" class="contact-ngo">Contact NGO</a>
                                         </div>
                                     <% }); %>
                                 </div>
