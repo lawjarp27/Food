@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donate Food</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             margin: 0;
             padding: 0;
         }
@@ -103,7 +110,7 @@
 </head>
 <body>
     <div class="header">
-        <div class="welcome">Donate Food</div>
+        <%- include('logo') %>
         <a href="/" class="back-btn">Back to Home</a>
     </div>
     <div class="container">
@@ -117,7 +124,7 @@
                 <div class="form-group">
                     <label for="food_quality">How Old is the Food?</label>
                     <select id="food_quality" name="food_quality" required>
-                        <option value="">Select Age</option>
+                        <option value="">Select</option>
                         <option value="Fresh">Fresh (Just Cooked)</option>
                         <option value="1day">1 Day Old</option>
                         <option value="2days">2 Days Old</option>
@@ -152,5 +159,6 @@
             </form>
         </div>
     </div>
+    <%- include('footer') %>
 </body>
 </html> 

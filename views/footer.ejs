@@ -1,0 +1,144 @@
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>Food Share Project</h3>
+            <p>Connecting surplus food with those in need, one donation at a time.</p>
+            <div class="social-links">
+                <a href="#" class="social-link">Facebook</a>
+                <a href="#" class="social-link">Twitter</a>
+                <a href="#" class="social-link">Instagram</a>
+            </div>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/donate">Donate Food</a></li>
+                <li><a href="/donations">My Donations</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Contact Info</h3>
+            <ul class="contact-info">
+                <li><i class="fas fa-envelope"></i>1DS23CB062@dsce.edu.in</li>
+                <li><i class="fas fa-phone"></i> +(91) 893743495</li>
+                <li><i class="fas fa-map-marker-alt"></i> AbsoluteFoods, Bangalore, India</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2024 Food Share Project. All rights reserved.</p>
+    </div>
+</footer>
+
+<style>
+    .footer {
+        background: linear-gradient(135deg, #2c3e50, #1a252f);
+        color: white;
+        padding: 3rem 0 1rem;
+        margin-top: 4rem;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+
+    .footer-section h3 {
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+    }
+
+    .footer-section p {
+        margin-bottom: 1rem;
+        opacity: 0.8;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .social-link {
+        color: white;
+        text-decoration: none;
+        opacity: 0.8;
+        transition: var(--transition);
+    }
+
+    .social-link:hover {
+        opacity: 1;
+        color: var(--primary-color);
+    }
+
+    .footer-links {
+        list-style: none;
+    }
+
+    .footer-links li {
+        margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+        color: white;
+        text-decoration: none;
+        opacity: 0.8;
+        transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+        opacity: 1;
+        color: var(--primary-color);
+        padding-left: 5px;
+    }
+
+    .contact-info {
+        list-style: none;
+    }
+
+    .contact-info li {
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 0.8;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        margin-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-bottom p {
+        opacity: 0.7;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+        .footer-content {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+
+        .social-links {
+            justify-content: center;
+        }
+
+        .contact-info li {
+            justify-content: center;
+        }
+    }
+</style> 

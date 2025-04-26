@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #4CAF50;
@@ -28,6 +29,9 @@
             background-color: var(--light-gray);
             color: var(--text-color);
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
@@ -159,11 +163,10 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="header">
-        <div class="welcome">Welcome, <%= user.name %>!</div>
+        <%- include('logo') %>
         <a href="/logout" class="logout-btn">
             <i class="fas fa-sign-out-alt"></i>
             Logout
@@ -180,7 +183,7 @@
                 </a>
                 <a href="/donations" class="action-btn view-donations-btn">
                     <i class="fas fa-list"></i>
-                    View My Donations
+                    View Donations
                 </a>
                 <a href="/register-ngo" class="action-btn register-ngo-btn">
                     <i class="fas fa-handshake"></i>
@@ -189,5 +192,6 @@
             </div>
         </div>
     </div>
+    <%- include('footer') %>
 </body>
 </html>

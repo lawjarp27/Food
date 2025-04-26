@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register NGO - Food Donation System</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #4CAF50;
@@ -23,9 +24,13 @@
         }
 
         body {
+            font-family: 'Poppins', sans-serif;
             background-color: var(--light-gray);
             color: var(--text-color);
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
@@ -111,6 +116,9 @@
 <body>
     <div class="container">
         <div class="card">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <%- include('logo') %>
+            </div>
             <h1>Register NGO</h1>
             <form action="/register-ngo" method="POST">
                 <div class="form-group">
@@ -131,5 +139,6 @@
             <a href="/" class="back-link">Back to Home</a>
         </div>
     </div>
+    <%- include('footer') %>
 </body>
 </html> 

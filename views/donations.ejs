@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Donations</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #4CAF50;
@@ -29,6 +30,9 @@
             background-color: var(--light-gray);
             color: var(--text-color);
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
@@ -90,6 +94,8 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .donation-card::before {
@@ -133,11 +139,14 @@
         }
 
         .donation-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
             margin-bottom: 1.5rem;
         }
 
         .donation-detail {
-            margin-bottom: 1rem;
+            margin-bottom: 0;
             display: flex;
             align-items: flex-start;
         }
@@ -149,17 +158,38 @@
             opacity: 0.8;
         }
 
+        .description-container {
+            grid-column: 1 / -1;
+            margin-top: 1rem;
+        }
+
+        .description-label {
+            font-weight: 600;
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .description-content {
+            background-color: var(--light-gray);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            color: var(--text-color);
+        }
+
         .donation-address {
             background-color: var(--light-gray);
             padding: 1.5rem;
             border-radius: var(--border-radius);
             margin-top: 1.5rem;
+            grid-column: 1 / -1;
         }
 
         .nearby-ngos {
             margin-top: 1.5rem;
             border-top: 2px solid var(--light-gray);
             padding-top: 1.5rem;
+            grid-column: 1 / -1;
         }
 
         .nearby-ngos-title {
@@ -170,32 +200,73 @@
         }
 
         .ngo-list {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 1rem;
         }
 
         .ngo-item {
             background-color: var(--light-gray);
-            padding: 1rem;
+            padding: 1.5rem;
             border-radius: var(--border-radius);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 1rem;
+            transition: var(--transition);
+        }
+
+        .ngo-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .ngo-info {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
 
         .ngo-name {
-            font-weight: 500;
+            font-weight: 600;
             color: var(--text-color);
+            font-size: 1.1rem;
         }
 
         .ngo-distance {
             font-size: 0.9rem;
             color: #666;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ngo-email {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .ngo-email-label {
+            font-weight: 500;
+            color: #666;
+        }
+
+        .accepted-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 500;
+            padding: 0.75rem;
+            background-color: rgba(76, 175, 80, 0.1);
+            border-radius: var(--border-radius);
+        }
+
+        .accepted-status i {
+            font-size: 1.2rem;
         }
 
         .contact-ngo {
@@ -206,6 +277,8 @@
             text-decoration: none;
             font-size: 0.9rem;
             transition: var(--transition);
+            text-align: center;
+            margin-top: 0.5rem;
         }
 
         .contact-ngo:hover {
@@ -261,7 +334,11 @@
         }
 
         @media (max-width: 768px) {
-            .donations-grid {
+            .donation-details {
+                grid-template-columns: 1fr;
+            }
+
+            .ngo-list {
                 grid-template-columns: 1fr;
             }
 
@@ -270,14 +347,6 @@
                 gap: 1rem;
                 text-align: center;
             }
-        }
-
-        .accepted-status {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--primary-color);
-            font-weight: 500;
         }
 
         .email-btn {
@@ -307,7 +376,7 @@
 
 <body>
     <div class="header">
-        <div class="welcome">My Donations</div>
+        <%- include('logo') %>
         <a href="/" class="back-btn">
             ← Back to Home
         </a>
@@ -335,14 +404,20 @@
                                     <%= donation.quantity %>
                                 </span>
                             </div>
+                            <div class="donation-detail">
+                                <span class="detail-label">Food Quality:</span>
+                                <span>
+                                    <%= donation.food_quality %>
+                                </span>
+                            </div>
                             <% if (donation.description) { %>
-                                <div class="donation-detail">
-                                    <span class="detail-label">Description:</span>
-                                    <span>
+                                <div class="description-container">
+                                    <div class="description-label">Description:</div>
+                                    <div class="description-content">
                                         <%= donation.description %>
-                                    </span>
+                                    </div>
                                 </div>
-                                <% } %>
+                            <% } %>
                         </div>
                         <div class="donation-address">
                             <div class="donation-detail">
@@ -369,17 +444,19 @@
                                                     <%= ngo.ngo_name %>
                                                 </div>
                                                 <div class="ngo-distance">
+                                                    <i class="fas fa-map-marker-alt"></i>
                                                     Pincode: <%= ngo.pincode %>
                                                 </div>
                                                 <div class="ngo-email">
                                                     <% if (donation.ngo_response === 'accepted' && donation.ngo_id === ngo.id) { %>
                                                         <div class="accepted-status">
-                                                            <i class="fas fa-check-circle" style="color: var(--primary-color); font-size: 1.5rem;"></i>
+                                                            <i class="fas fa-check-circle"></i>
                                                             <span>Accepted</span>
                                                         </div>
                                                     <% } else { %>
-                                                        Email: <%= ngo.email %>
-                                                        <form action="/send-email" method="post" style="margin-top: 5px;">
+                                                        <span class="ngo-email-label">Email:</span>
+                                                        <span><%= ngo.email %></span>
+                                                        <form action="/send-email" method="post">
                                                             <input type="hidden" name="email" value="<%= ngo.email %>">
                                                             <input type="hidden" name="donation_id" value="<%= donation.id %>">
                                                             <input type="hidden" name="ngo_id" value="<%= ngo.id %>">
@@ -392,8 +469,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <% }); %>
+                                    <% }); %>
                                 </div>
                                 <% } else { %>
                                     <p>No NGOs found within 50 pincodes of this location.</p>
@@ -410,6 +486,7 @@
                 </div>
                 <% } %>
     </div>
+    <%- include('footer') %>
 </body>
 
 </html>

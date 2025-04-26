@@ -4,24 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
         }
         .container {
             background-color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
             width: 100%;
             max-width: 400px;
+            margin: 2rem;
         }
         h1 {
             text-align: center;
@@ -76,6 +80,9 @@
 </head>
 <body>
     <div class="container">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <%- include('logo') %>
+        </div>
         <h1>Register</h1>
         <% if (error) { %>
             <div class="error"><%= error %></div>
@@ -99,5 +106,6 @@
             Already have an account? <a href="/login">Login</a>
         </div>
     </div>
+    <%- include('footer') %>
 </body>
 </html> 
