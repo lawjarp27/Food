@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Donations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .header {
+            background-color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .welcome {
+            color: #333;
+            font-size: 1.5rem;
+        }
+        .back-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .back-btn:hover {
+            background-color: #5a6268;
+        }
+        .donations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .donation-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            transition: transform 0.3s;
+        }
+        .donation-card:hover {
+            transform: translateY(-5px);
+        }
+        .donation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        .donation-title {
+            font-size: 1.2rem;
+            color: #333;
+            margin: 0;
+        }
+        .donation-age {
+            background-color: #e9ecef;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #495057;
+        }
+        .donation-details {
+            margin-bottom: 1rem;
+        }
+        .donation-detail {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #666;
+            min-width: 100px;
+        }
+        .donation-address {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+        .no-donations {
+            text-align: center;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .donate-btn {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+        .donate-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="welcome">My Donations</div>
+        <a href="/" class="back-btn">Back to Home</a>
+    </div>
+    <div class="container">
+        <% if (donations && donations.length > 0) { %>
+            <div class="donations-grid">
+                <% donations.forEach(donation => { %>
+                    <div class="donation-card">
+                        <div class="donation-header">
+                            <h3 class="donation-title"><%= donation.item_name %></h3>
+                            <span class="donation-age"><%= donation.food_quality %></span>
+                        </div>
+                        <div class="donation-details">
+                            <div class="donation-detail">
+                                <span class="detail-label">Quantity:</span>
+                                <span><%= donation.quantity %></span>
+                            </div>
+                            <% if (donation.description) { %>
+                                <div class="donation-detail">
+                                    <span class="detail-label">Description:</span>
+                                    <span><%= donation.description %></span>
+                                </div>
+                            <% } %>
+                        </div>
+                        <div class="donation-address">
+                            <div class="donation-detail">
+                                <span class="detail-label">Address:</span>
+                                <span><%= donation.address %></span>
+                            </div>
+                            <div class="donation-detail">
+                                <span class="detail-label">Pincode:</span>
+                                <span><%= donation.pincode %></span>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <div class="no-donations">
+                <h2>No Donations Yet</h2>
+                <p>You haven't made any food donations yet.</p>
+                <a href="/donate" class="donate-btn">Make Your First Donation</a>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html> 
